@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-
+from components.ranking_paises_titulos import ranking_paises_titulos
 df_partidas = pd.read_csv("data/raw/matches_1930_2022.csv")
 print(df_partidas.info())
 print(df_partidas.describe())
@@ -11,6 +11,10 @@ df_copa_do_mundo = pd.read_csv("data/raw/world_cup.csv")
 print(df_copa_do_mundo.info())
 print(df_copa_do_mundo.describe())
 st.title("Análise da Copa do Mundo FIFA Masculino 1930 - 2022")
+st.header("Copa do Mundo 1930-2022")
+ranking_paises_titulos(df_copa_do_mundo)
+
+st.divider()
 
 st.header("Dataset de Partidas 1930-2022")
 st.text(f"Linhas: {df_partidas.shape[0]}, Colunas: {df_partidas.shape[1]}")
@@ -19,4 +23,5 @@ st.dataframe(df_partidas)
 st.header("Dataset da Copa do Mundo")
 st.text(f"Linhas: {df_copa_do_mundo.shape[0]}, Colunas: {df_copa_do_mundo.shape[1]}")
 st.dataframe(df_copa_do_mundo)
+freq = df_copa_do_mundo["Champion"].value_counts()
 
