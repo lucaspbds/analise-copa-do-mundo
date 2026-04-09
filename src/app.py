@@ -3,6 +3,9 @@ import pandas as pd
 from components.ranking_paises_titulos import ranking_paises_titulos
 from components.evolucao_gols_copa_do_mundo import evolucao_gols_copa_do_mundo
 from components.ranking_paises_gols import ranking_paises_gols
+from components.cards import pais_menos_frequencia
+from components.cards import pais_mais_gols
+from components.cards import pais_mais_frequencia_final
 from pipeline import pipeline
 
 df_partidas = pd.read_csv("data/raw/matches_1930_2022.csv")
@@ -40,3 +43,6 @@ st.text(f"Linhas: {df_copa_do_mundo.shape[0]}, Colunas: {df_copa_do_mundo.shape[
 st.dataframe(df_copa_do_mundo)
 
 
+pais_menos_frequencia(df_partidas_processado)
+pais_mais_gols(df_partidas_processado)
+pais_mais_frequencia_final(df_partidas_processado)
