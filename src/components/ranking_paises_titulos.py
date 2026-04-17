@@ -9,7 +9,7 @@ def ranking_paises_titulos(df:pd.DataFrame) -> None:
     Args:
         df (pd.DataFrame): Dataframe do arquivo world_cup.
     """
-    
+
     ranking_paises = df.groupby("Champion").agg(
         qtd_titulos=("Champion", "count")).reset_index()
     fig = px.bar(ranking_paises, 
@@ -19,6 +19,21 @@ def ranking_paises_titulos(df:pd.DataFrame) -> None:
                  orientation='h',
                  color='Champion')
     fig.update_layout(
-        yaxis={'categoryorder':'total ascending'}
+        xaxis=dict(
+            title=dict(text='Títulos'),
+            tickmode='array',
+            tickvals=ranking_paises['qtd_titulos'].dropna()
+        ),
+        yaxis=dict(
+            title=dict(text='Países'),
+            categoryorder='total ascending'),
+        legend=dict(
+            title=dict(text='Países')
+        ),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)"
     )
-    st.plotly_chart(fig)
+
+    st.plotly_chart(fig, use_container_width=True)
+
+
