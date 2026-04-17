@@ -20,10 +20,19 @@ def pais_menos_frequencia(df):
     st.markdown(f'<div class="card">País com menos frequência na copa<br><b>{pais_menos_freq[0]} - {pais_menos_freq[1]} vez</b></div>', unsafe_allow_html=True)
 
 def pais_mais_frequencia(df):
-    df_paises = pd.concat([df['home_team'], df['away_team']], axis=0)
-    paises_freq = df_paises.value_counts().reset_index()
-    pais_mais_freq = paises_freq.iloc[0].values
-    print(pais_mais_freq)
+    df_home_team = df[['home_team', 'Year']].rename(
+        columns={'home_team':'País', 'Year':'Ano'}
+    )
+    df_away_team = df[['away_team', 'Year']].rename(
+        columns={'away_team':'País', 'Year':'Ano'}
+    )
+    df_paises = pd.concat([df_home_team, df_away_team])
+    df_paises = df_paises.drop_duplicates()
+    df_paises = df_paises.groupby('País')['Ano'].count().reset_index().rename(
+        columns={'País':'País', 'Ano': 'Freq'}
+    )
+    paises_frequencia = df_paises.sort_values(by='Freq', ascending=False)
+    pais_mais_freq = paises_frequencia.iloc[0].values
     st.markdown(f'<div class="card">País com mais frequência na copa<br><b>{pais_mais_freq[0]} - {pais_mais_freq[1]} vezes</b></div>', unsafe_allow_html=True)
 
 def pais_mais_gols(df):
